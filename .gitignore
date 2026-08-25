@@ -20,3 +20,5 @@ data/
 
 # AI nonsense
 .commandcode/taste/
+.claude
+.agents

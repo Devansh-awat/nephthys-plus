@@ -13,15 +13,16 @@ from slack_bolt.async_app import AsyncApp
 from slack_bolt.context.ack.async_ack import AsyncAck
 from slack_sdk.web.async_client import AsyncWebClient
 
-from nephthys.actions.add_macro import add_macro_command_callback
-from nephthys.actions.add_macro import delete_macro_command_callback
-from nephthys.actions.add_macro import list_macros_command_callback
 from nephthys.actions.assign_category_tag import assign_category_tag_callback
 from nephthys.actions.assign_team_tag import assign_team_tag_callback
 from nephthys.actions.create_category_tag import create_category_tag_btn_callback
 from nephthys.actions.create_category_tag import create_category_tag_view_callback
 from nephthys.actions.create_team_tag import create_team_tag_btn_callback
 from nephthys.actions.create_team_tag import create_team_tag_view_callback
+from nephthys.actions.manage_macros import delete_macro_callback
+from nephthys.actions.manage_macros import macro_form_view_callback
+from nephthys.actions.manage_macros import open_add_macro_modal
+from nephthys.actions.manage_macros import open_edit_macro_modal
 from nephthys.actions.reopen import reopen
 from nephthys.actions.resolve import resolve
 from nephthys.actions.tag_subscribe import tag_subscribe_callback
@@ -305,23 +306,22 @@ async def submit_feedback(ack: AsyncAck, body: Dict[str, Any], client: AsyncWebC
     )
 
 
-@app.command(re.compile(r"^/add-[\w-]+-macros$"))
-async def handle_add_macro_command(
-    ack: AsyncAck, body: Dict[str, Any], client: AsyncWebClient
-):
-    await add_macro_command_callback(ack, body, client)
+@app.action("add-macro")
+async def add_macro(ack: AsyncAck, body: Dict[str, Any], client: AsyncWebClient):
+    await open_add_macro_modal(ack, body, client)
 
 
-@app.command(re.compile(r"^/delete-[\w-]+-macros$"))
-async def handle_delete_macro_command(
-    ack: AsyncAck, body: Dict[str, Any], client: AsyncWebClient
-):
-    await delete_macro_command_callback(ack, body, client)
+@app.action("edit-macro")
+async def edit_macro(ack: AsyncAck, body: Dict[str, Any], client: AsyncWebClient):
+    await open_edit_macro_modal(ack, body, client)
 
 
-@app.command(re.compile(r"^/list-[\w-]+-macros$"))
-async def handle_list_macros_command(
-    ack: AsyncAck, body: Dict[str, Any], client: AsyncWebClient
-):
-    await list_macros_command_callback(ack, body, client)
+@app.action("delete-macro")
+async def delete_macro(ack: AsyncAck, body: Dict[str, Any], client: AsyncWebClient):
+    await delete_macro_callback(ack, body, client)
+
+
+@app.view("macro_form")
+async def macro_form(ack: AsyncAck, body: Dict[str, Any], client: AsyncWebClient):
+    await macro_form_view_callback(ack, body, client)
 

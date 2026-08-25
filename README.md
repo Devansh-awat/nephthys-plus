@@ -34,15 +34,7 @@ Sometimes it’s nice to be able to do things quickly... Here’s where macros c
 
 #### Custom Program Macros
 
-Helpers and admins can add, update, list, and delete custom program macros without code changes:
-
-- **Add/Update**: `/add-<program>-macros ?<macro_name> <markdown response> [--no-resolve] [--can-run-on-closed]`
-  - Example: `/add-hcai-macros ?models Here are the available AI models: ... --no-resolve`
-  - Flags:
-    - `--no-resolve`: Keep the ticket open (default resolves the ticket)
-    - `--can-run-on-closed`: Allow running this macro on closed tickets (default is false)
-- **Delete**: `/delete-<program>-macros ?<macro_name>`
-- **List**: `/list-<program>-macros`
+Helpers and admins can add, edit, and delete custom program macros from the **Macros** tab on the bot's App Home. Each macro can optionally be set to keep the ticket open (instead of resolving it) or to run on closed tickets.
 
 ### Stale
 
@@ -118,8 +110,7 @@ docker run --name hh-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d post
    - In "Event Subscriptions" and "Interactivity & Shortcuts", update the request URL to your HTTPS URL followed by `/slack/events`.
    - In "OAuth & Permissions", update `Redirect URLs` to your HTTPS URL followed by `/slack/oauth_redirect`.
 
-3. MAKE SURE YOU CHANGE THE COMMAND - DO NOT USE THE SAME COMMAND
-4. Install pre-commit hooks:
+3. Install pre-commit hooks:
 
    ```sh
    uv run pre-commit install
