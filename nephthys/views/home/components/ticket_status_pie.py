@@ -59,6 +59,11 @@ async def generate_ticket_status_pie_image(tz: timezone | None = None) -> bytes:
                 del labels[count]
                 del colours[count]
 
+        if not y:  # no tickets at all; matplotlib raises on an all-zero pie
+            y = [1]
+            labels = ["No tickets"]
+            colours = ["#808080"]
+
         b = BytesIO()
         y = np.array(y)
         plt = generate_pie_chart(
