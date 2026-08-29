@@ -99,6 +99,7 @@ async def macro_form_view_callback(
 
     resolve_ticket = "resolve_ticket" in selected
     can_run_on_closed = "can_run_on_closed" in selected
+    post_as_helper = "post_as_helper" in selected
 
     if macro_id:
         await Macro.update(
@@ -107,6 +108,7 @@ async def macro_form_view_callback(
                 Macro.message: message,
                 Macro.resolve_ticket: resolve_ticket,
                 Macro.can_run_on_closed: can_run_on_closed,
+                Macro.post_as_helper: post_as_helper,
             }
         ).where(Macro.id == int(macro_id))
         logging.info(f"Macro '?{name}' updated by <@{user_id}> for program {env.program}")
@@ -116,6 +118,7 @@ async def macro_form_view_callback(
             message=message,
             resolve_ticket=resolve_ticket,
             can_run_on_closed=can_run_on_closed,
+            post_as_helper=post_as_helper,
             program=env.program,
         ).save()
         logging.info(f"Macro '?{name}' added by <@{user_id}> for program {env.program}")

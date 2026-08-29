@@ -76,6 +76,7 @@ async def run_macro(
             target_macro.message = db_macro.message
             target_macro.resolve_ticket = db_macro.resolve_ticket
             target_macro.can_run_on_closed = db_macro.can_run_on_closed
+            target_macro.post_as_helper = db_macro.post_as_helper
 
     if target_macro:
         if not target_macro.can_run_on_closed and ticket.status == TicketStatus.CLOSED:

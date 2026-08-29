@@ -55,6 +55,8 @@ async def get_macros_view(user: User | None) -> dict:
             flags.append("no-resolve")
         if macro.can_run_on_closed:
             flags.append("can-run-on-closed")
+        if macro.post_as_helper:
+            flags.append("post-as-helper")
         flag_str = f" `[{', '.join(flags)}]`" if flags else ""
         preview = macro.message[:200] + ("..." if len(macro.message) > 200 else "")
         blocks.append(

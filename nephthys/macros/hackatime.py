@@ -17,10 +17,13 @@ class Hackatime(Macro):
         if not sender:
             return
         user = await get_user_profile(sender.slack_id)
+        username, icon_url = await self.helper_identity(helper)
         await reply_to_ticket(
             text=env.transcript.hackatime_macro.replace("(user)", user.display_name()),
             ticket=ticket,
             client=env.slack_client,
+            username=username,
+            icon_url=icon_url,
         )
         await resolve(
             ts=ticket.msg_ts,

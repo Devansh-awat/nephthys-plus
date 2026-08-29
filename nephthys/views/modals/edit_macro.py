@@ -8,6 +8,8 @@ def get_edit_macro_modal(macro: Macro | None = None) -> dict:
         checked.append("resolve_ticket")
     if is_edit and macro.can_run_on_closed:
         checked.append("can_run_on_closed")
+    if is_edit and macro.post_as_helper:
+        checked.append("post_as_helper")
 
     def option(value: str, text: str) -> dict:
         return {"text": {"type": "plain_text", "text": text}, "value": value}
@@ -15,6 +17,7 @@ def get_edit_macro_modal(macro: Macro | None = None) -> dict:
     options = [
         option("resolve_ticket", "Resolves the ticket when run"),
         option("can_run_on_closed", "Can run on closed tickets"),
+        option("post_as_helper", "post as helper"),
     ]
 
     return {

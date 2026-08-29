@@ -10,12 +10,20 @@ class Macro:
     name: str
     aliases: list[str] = []
     can_run_on_closed: bool = False
+    post_as_helper: bool = False
 
     async def run(self, ticket: Ticket, helper: User, **kwargs) -> None:
         """
         Run the macro with the given arguments.
         """
         raise NotImplementedError("Subclasses must implement this method.")
+
+    async def helper_identity(self, helper: User) -> tuple[str | None, str | None]:
+        """(username, icon_url) to post replies as, or (None, None) for the app default."""
+        if not self.post_as_helper:
+            return None, None
+        profile = await get_user_profile(helper.slack_id)
+        return profile.display_name(), profile.profile_pic_512x()
 
     def all_aliases(self) -> set[str]:
         """
@@ -64,10 +72,14 @@ class ReplyMacro(Macro):
             user = await get_user_profile(sender.slack_id)
             reply_text = self.message.replace("(user)", user.display_name())
 
+        username, icon_url = await self.helper_identity(helper)
+
         await reply_to_ticket(
             text=reply_text,
             ticket=ticket,
             client=env.slack_client,
+            username=username,
+            icon_url=icon_url,
         )
 
         if self.resolve_ticket:

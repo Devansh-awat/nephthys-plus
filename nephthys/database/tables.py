@@ -183,6 +183,7 @@ class Macro(Table, tablename="Macro"):
     message = Text()
     resolve_ticket = Boolean(default=True, db_column_name="resolveTicket")
     can_run_on_closed = Boolean(default=False, db_column_name="canRunOnClosed")
+    post_as_helper = Boolean(default=False, db_column_name="postAsHelper")
     program = Text(null=True)
     created_at = Timestamptz(default=TimestamptzNow(), db_column_name="createdAt")
 
