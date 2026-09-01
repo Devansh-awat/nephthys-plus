@@ -26,7 +26,7 @@ async def tickets_awaiting_response_message(tickets: list[Ticket]) -> str:
         return ":rac_woah: _btw, i looked for old unanswered tickets, but found none. well done team!_"
 
     count = len(tickets)
-    MAX_TICKETS = 5
+    MAX_TICKETS = 30
 
     msg_lines = [
         ":rac_shy: *tickets you could take a look at*",
