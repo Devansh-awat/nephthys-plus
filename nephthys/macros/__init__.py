@@ -15,6 +15,7 @@ from nephthys.macros.resolve import Resolve
 from nephthys.macros.search import Search
 from nephthys.macros.shipcertqueue import ShipCertQueue
 from nephthys.macros.shipwrights import Shipwrights
+from nephthys.macros.stale import Stale
 from nephthys.macros.team_tag import TeamTag
 from nephthys.macros.thread import Thread
 from nephthys.macros.trigger_daily_stats import DailyStats
@@ -43,6 +44,7 @@ macro_list: list[type[Macro]] = [
     VoteQueue,
     MaxTokens,
     NoMoney,
+    Stale,
     Search,
 ]
 
