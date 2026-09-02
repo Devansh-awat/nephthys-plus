@@ -25,6 +25,19 @@ class Macro:
         profile = await get_user_profile(helper.slack_id)
         return profile.display_name(), profile.profile_pic_512x()
 
+    def helper_metadata(self, helper: User) -> dict | None:
+        """Slack message metadata attributing a post_as_helper reply to the real helper.
+
+        Bots like at-channel/Prometheus/ShowRealUser read
+        metadata.event_payload.source_user_id to show the real author.
+        """
+        if not self.post_as_helper:
+            return None
+        return {
+            "event_type": "nephthys_macro_reply",
+            "event_payload": {"source_user_id": helper.slack_id},
+        }
+
     def all_aliases(self) -> set[str]:
         """
         Get all names for this macro, including aliases.
@@ -80,6 +93,7 @@ class ReplyMacro(Macro):
             client=env.slack_client,
             username=username,
             icon_url=icon_url,
+            metadata=self.helper_metadata(helper),
         )
 
         if self.resolve_ticket:
