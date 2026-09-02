@@ -134,6 +134,11 @@ class Transcript(BaseModel):
         description="Message for closing stale tickets",
     )
 
+    search_macro: str | None = Field(
+        default=None,
+        description="Message explaining web search and Exa API recommendation for Hack Club AI",
+    )
+
     not_allowed_channel: str = Field(
         default="", description="Message for unauthorized channel access"
     )
