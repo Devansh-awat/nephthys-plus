@@ -38,6 +38,7 @@ macro_list: list[type[Macro]] = [
     Shipwrights,
     TeamTag,
     Hackatime,
+    Stale,
 ]
 
 macros = [macro() for macro in macro_list]
