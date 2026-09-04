@@ -12,6 +12,7 @@ from nephthys.macros.identity import Identity
 from nephthys.macros.reopen import Reopen
 from nephthys.macros.resolve import Resolve
 from nephthys.macros.shipwrights import Shipwrights
+from nephthys.macros.stale import Stale
 from nephthys.macros.team_tag import TeamTag
 from nephthys.macros.thread import Thread
 from nephthys.macros.threadrip import ThreadRip

@@ -36,6 +36,12 @@ Sometimes it’s nice to be able to do things quickly... Here’s where macros c
 
 Helpers and admins can add, edit, and delete custom program macros from the **Macros** tab on the bot's App Home. Each macro can optionally be set to keep the ticket open (instead of resolving it) or to run on closed tickets.
 
+#### HCAI-specific macros
+
+- `?search` - web search / Exa API deprecation notice and link
+- `?max_tokens` - explanation of max_tokens for OpenRouter request limits
+- `?no_money` - inform user that credits are temporarily depleted
+
 ### Stale
 
 Tickets that have not had a response for more than 3 days will automatically be closed as stale. The last helper to respond in the thread gets credit for closing them
