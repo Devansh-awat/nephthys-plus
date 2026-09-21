@@ -1,6 +1,6 @@
-# Nephthys
+# Nephthys+
 
-Nephthys is the bot powering many support channels in the Hack Club Slack such as #flavortown-help and #identity-help! Below is a guide to set her up for developing and here's a list of some of her features :)
+Nephthys+ is the bot powering many support channels in the Hack Club Slack such as #flavortown-help and #identity-help! Below is a guide to set her up for developing and here's a list of some of her features :)
 
 ## Features
 
