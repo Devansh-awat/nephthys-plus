@@ -15,7 +15,9 @@ class ThreadGoneError(Exception):
 
     This can happen when the top-level message is deleted.
     """
-
+class DeletionError(RuntimeError):
+    """Raised when a deletion operation fails."""
+    pass
 
 async def delete_message(channel_id: str, message_ts: str):
     """Deletes a Slack message, or does nothing if the message doesn't exist"""
@@ -27,13 +29,13 @@ async def delete_message(channel_id: str, message_ts: str):
             )
     except SlackApiError as e:
         error_code = e.response.get("error") if hasattr(e.response, "get") else e.response.data.get("error")
-        if error_code != "message_not_found":
+        if error_code == "message_not_found":
             raise e
             logging.warning(
                 f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
             )
         else:
-            raise e
+            raise DeletionError(f"Error deleting thread with ts: {message_ts} and channel id: {channel_id}.")
 
 
 async def reply_to_ticket(
