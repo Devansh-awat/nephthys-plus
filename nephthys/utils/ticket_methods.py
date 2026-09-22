@@ -17,11 +17,11 @@ class ThreadGoneError(Exception):
     """
 class DeletionError(RuntimeError):
     """Raised when a deletion operation fails."""
-    pass
 
 async def delete_message(channel_id: str, message_ts: str):
     """Deletes a Slack message, or does nothing if the message doesn't exist"""
     try:
+        raise DeletionError(f"FAILED: ts {message_ts}")
         deleted_resp = await prom_del(channel=channel_id, ts=message_ts, reason="Delete bot msg")
         if not deleted_resp:
             logging.warning(
