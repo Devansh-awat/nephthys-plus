@@ -1,6 +1,6 @@
-# Nephthys
+# Nephthys+
 
-Nephthys is the bot powering many support channels in the Hack Club Slack such as #flavortown-help and #identity-help! Below is a guide to set her up for developing and here's a list of some of her features :)
+Nephthys+ is the bot powering many support channels in the Hack Club Slack such as #flavortown-help and #identity-help! Below is a guide to set her up for developing and here's a list of some of her features :)
 
 ## Features
 
@@ -27,10 +27,10 @@ Sometimes it’s nice to be able to do things quickly... Here’s where macros c
 - `?faq` - redirect to the FAQ
 - `?hii` - silly message :3
 - `?fraud` - redirect to Fraud Squad
-- `?thread` - remove the reaction and all Nephthys replies to unclutter duplicates
+- `?thread` - remove the reaction and all Nephthys+ replies to unclutter duplicates
 - `?shipwrights` - redirect to #ask-the-shipwrights
 - `?hackatime` - redirect to #hackatime-help
-- more to come?? feel free to PR your own into hackclub/nephthys or tell me what you want
+- more to come?? feel free to PR your own into hackclub/nephthys+ or tell me what you want
 
 #### Flavortown-specific macros
 
@@ -84,8 +84,8 @@ docker run --name hh-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d post
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/hackclub/nephthys
-   cd nephthys
+   git clone https://github.com/hackclub/nephthys+
+   cd nephthys+
    ```
 
 2. Install dependencies:
@@ -128,13 +128,13 @@ docker run --name hh-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d post
 5. Start your database and update the database schema: (change the DB URL if needed)
 
    ```sh
-   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/nephthys" piccolo migrations forwards nephthys
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/nephthys+" piccolo migrations forwards nephthys+
    ```
 
 6. Start the application:
 
    ```sh
-   nephthys
+   nephthys+
    ```
 
 Your Slack app should now be running and connected to your Slack workspace!
@@ -145,19 +145,19 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 A work-in progress document with some codebase conventions can be found at [docs/contributing.md](docs/contributing.md).
 
-The [#nephthys-dev](https://hackclub.enterprise.slack.com/archives/C09QR2BH3GE) channel in the Slack is available for technical discussion or questions.
+The [#nephthys+-dev](https://hackclub.enterprise.slack.com/archives/C09QR2BH3GE) channel in the Slack is available for technical discussion or questions.
 
 ### Scripts
 
-The codebase contains some scripts in the `nephthys/scripts/` directory to help with development and testing. They are documented below.
+The codebase contains some scripts in the `nephthys+/scripts/` directory to help with development and testing. They are documented below.
 
 #### Adding Dummy Data
 
 `add_dummy_data.py` is a script that adds a bunch of dummy (i.e. fake) support ticket records to the database, for stress-testing/performance testing.
 
-Usage: `uv run nephthys/scripts/add_dummy_data.py <num_records>`
+Usage: `uv run nephthys+/scripts/add_dummy_data.py <num_records>`
 
-- Ensure you run it after the `nephthys` has been run at least once (and once the DB has been initialized)
+- Ensure you run it after the `nephthys+` has been run at least once (and once the DB has been initialized)
 - It takes a while to run (adding 20k records takes ~50 seconds on my machine)
 - Don't run this in production, obviously
 
