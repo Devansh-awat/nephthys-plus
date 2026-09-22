@@ -21,11 +21,14 @@ async def delete_message(channel_id: str, message_ts: str):
     try:
         await env.slack_client.chat_delete(channel=channel_id, ts=message_ts)
     except SlackApiError as e:
-        if e.response.get("error") != "message_not_found":
+        error_code = e.response.get("error") if hasattr(e.response, "get") else e.response.data.get("error")
+        if error_code != "message_not_found":
             raise e
-        logging.warning(
-            f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
-        )
+            logging.warning(
+                f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
+            )
+        else:
+            raise e
 
 
 async def reply_to_ticket(
