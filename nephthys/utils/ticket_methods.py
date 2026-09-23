@@ -7,7 +7,6 @@ from slack_sdk.web.async_client import AsyncWebClient
 from nephthys.database.tables import BotMessage
 from nephthys.database.tables import Ticket
 from nephthys.utils.env import env
-from nephthys.utils.prometheus import delete_message as prom_del
 
 
 class ThreadGoneError(Exception):
@@ -21,21 +20,16 @@ class DeletionError(RuntimeError):
 async def delete_message(channel_id: str, message_ts: str):
     """Deletes a Slack message, or does nothing if the message doesn't exist"""
     try:
-        raise DeletionError(f"FAILED: ts {message_ts}")
-        deleted_resp = await prom_del(channel=channel_id, ts=message_ts, reason="Delete bot msg")
-        if not deleted_resp:
-            logging.warning(
-                f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
-            )
+        await env.slack_client.chat_delete(channel=channel_id, ts=message_ts)
     except SlackApiError as e:
-        error_code = e.response.get("error") if hasattr(e.response, "get") else e.response.data.get("error")
-        if error_code == "message_not_found":
+        if e.response.get("error") != "message_not_found":
             raise e
-            logging.warning(
-                f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
-            )
-        else:
-            raise DeletionError(f"Error deleting thread with ts: {message_ts} and channel id: {channel_id}.")
+        logging.warning(
+            f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
+        )
+    except Exception as e:
+        raise DeletionError(e)
+
 
 
 async def reply_to_ticket(
