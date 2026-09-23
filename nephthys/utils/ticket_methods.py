@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from blockkit.core import MessageBlock
@@ -22,16 +23,25 @@ class DeletionError(RuntimeError):
 
 async def delete_message(channel_id: str, message_ts: str):
     """Deletes a Slack message, or does nothing if the message doesn't exist"""
-    try:
-        await env.slack_client.chat_delete(channel=channel_id, ts=message_ts)
-    except SlackApiError as e:
-        if e.response.get("error") != "message_not_found":
-            raise e
-        logging.warning(
-            f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
-        )
-    except Exception as e:
-        raise DeletionError(e)
+    for attempt in range(3):
+        try:
+            await env.slack_client.chat_delete(channel=channel_id, ts=message_ts)
+            return
+        except SlackApiError as e:
+            error = e.response.get("error")
+            if error == "message_not_found":
+                logging.warning(
+                    f"Tried to delete message {message_ts} in channel {channel_id} but it doesn't exist (already deleted?)"
+                )
+                return
+
+            status_code = getattr(e.response, "status_code", None)
+            if status_code is not None and status_code >= 500 and attempt < 2:
+                await asyncio.sleep(2**attempt)
+                continue
+            raise
+        except Exception as e:
+            raise DeletionError(e)
 
 
 async def reply_to_ticket(
