@@ -34,6 +34,7 @@ from nephthys.events.app_home_opened import on_app_home_opened
 from nephthys.events.app_home_opened import open_app_home
 from nephthys.events.channel_join import channel_join
 from nephthys.events.channel_left import channel_left
+from nephthys.events.message_creation import get_forwarded_ticket_user
 from nephthys.events.message_creation import on_message
 from nephthys.events.message_deletion import on_message_deletion
 from nephthys.options.category_tags import get_category_tags
@@ -53,7 +54,7 @@ async def handle_message(event: Dict[str, Any], client: AsyncWebClient):
         and event["message"].get("subtype") == "tombstone"
     ) or event.get("subtype") == "message_deleted"
 
-    if event["channel"] == env.slack_help_channel:
+    if event["channel"] == env.slack_help_channel or get_forwarded_ticket_user(event):
         async with perf_timer("Processing message event (total time)"):
             if is_message_deletion:
                 await on_message_deletion(event, client)
